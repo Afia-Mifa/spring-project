@@ -8,17 +8,22 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class StudentServiceImpl implements  StudentService{
+public class StudentServiceImpl implements StudentService {
 
     private final StudentRepo studentRepo;
 
-    public StudentServiceImpl(StudentRepo studentRepo){
-        this.studentRepo =  studentRepo;
+    public StudentServiceImpl(StudentRepo studentRepo) {
+        this.studentRepo = studentRepo;
     }
 
     @Override
     public List<Student> getAllStudents() {
-        return studentRepo.findAll();
+        return studentRepo.findAllByOrderByIdDesc();
+    }
+
+    @Override
+    public List<Student> searchStudentByName(String name) {
+        return studentRepo.findByName(name);
     }
 
     @Override
@@ -28,17 +33,16 @@ public class StudentServiceImpl implements  StudentService{
 
     @Override
     public Student getStudentById(Long id) {
-       Optional<Student> studentOptional = studentRepo.findById(id);
-       Student student;
+        Optional<Student> studentOptional = studentRepo.findById(id);
+        Student student;
 
-       if (studentOptional.isPresent()){
-           student = studentOptional.get();
-       }
-       else{
-           throw new RuntimeException("Student not found");
-       }
+        if (studentOptional.isPresent()) {
+            student = studentOptional.get();
+        } else {
+            throw new RuntimeException("Student not found");
+        }
 
-       return student;
+        return student;
     }
 
     @Override

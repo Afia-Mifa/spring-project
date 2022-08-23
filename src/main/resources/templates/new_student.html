@@ -8,11 +8,12 @@
 </head>
 <body>
 <div class="container my-2">
-<h1>Student Management</h1>
-<form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
-    <input type="text" th:field="*{name}" placeholder="Student Name" class="form-control mb-4 col-4">
-    <input type="number" th:field="*{age}" placeholder="Student Age" class="form-control mb-4 col-4">
-    <button type="submit" class="btn btn-info col-2">Save Student</button></form>
+    <h1>Student Management</h1>
+    <form action="#" th:action="@{/saveStudent}" th:object="${student}" method="POST">
+        <input type="text" th:field="*{name}" placeholder="Student Name" class="form-control mb-4 col-4">
+        <input type="number" th:field="*{age}" placeholder="Student Age" class="form-control mb-4 col-4">
+        <button type="submit" class="btn btn-info col-2">Save Student</button>
+    </form>
 </div>
 </body>
 </html>
