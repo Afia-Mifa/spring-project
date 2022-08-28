@@ -9,6 +9,7 @@ import java.util.List;
 @Component
 public interface StudentRepo extends JpaRepository<Student, Long> {
     List<Student> findByName(String name);
-
     List<Student> findAllByOrderByIdDesc();
+    List<Student> findAllByActive(int active);
+
 }

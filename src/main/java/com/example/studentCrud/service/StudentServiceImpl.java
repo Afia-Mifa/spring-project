@@ -54,4 +54,16 @@ public class StudentServiceImpl implements StudentService {
     public void deleteStudent(Student student) {
         studentRepo.delete(student);
     }
+
+    @Override
+    public List<Student> getInactiveStudents(int active) {
+        return studentRepo.findAllByActive(active);
+    }
+
+    @Override
+    public void activateStudentAccount(Long id) {
+        Student student = getStudentById(id);
+        student.setActive(1);
+        studentRepo.save(student);
+    }
 }

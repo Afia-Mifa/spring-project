@@ -7,10 +7,14 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
     private String name;
-    @Column
     private int age;
+
+    private int active;
+
+    @OneToOne(mappedBy = "student")
+
+    StudentLogin studentLogin;
 
     public Long getId() {
         return id;
@@ -34,5 +38,13 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 }

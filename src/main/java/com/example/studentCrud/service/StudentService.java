@@ -9,6 +9,8 @@ import java.util.List;
 public interface StudentService {
     List<Student> getAllStudents();
 
+    List<Student> getInactiveStudents(int active);
+    void activateStudentAccount(Long id);
     List<Student> searchStudentByName(String name);
 
     void saveStudent(Student student);
@@ -18,4 +20,5 @@ public interface StudentService {
     void updateStudent(Student student);
 
     void deleteStudent(Student student);
+
 }

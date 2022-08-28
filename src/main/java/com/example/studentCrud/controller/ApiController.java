@@ -1,6 +1,8 @@
 package com.example.studentCrud.controller;
 
+import com.example.studentCrud.dto.RegisterDto;
 import com.example.studentCrud.model.Student;
+import com.example.studentCrud.service.RegisterServiceImpl;
 import com.example.studentCrud.service.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,12 +12,15 @@ import org.springframework.web.bind.annotation.*;
 public class ApiController {
 
     private final StudentService studentService;
+//    private final StudentRegRepo studentRegRepo;
+    private final RegisterServiceImpl registerService;
 
-    public ApiController(StudentService studentService) {
+    public ApiController(StudentService studentService, RegisterServiceImpl registerService) {
         this.studentService = studentService;
+        this.registerService = registerService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/student")
     public String viewHomePage(Model model) {
         model.addAttribute("listStudents", studentService.getAllStudents());
         model.addAttribute("students", new Student());
@@ -61,4 +66,21 @@ public class ApiController {
         model.addAttribute("listStudents", studentService.searchStudentByName(text));
         return "index";
     }
+    @GetMapping("/login")
+    public String getLoginPage(){
+        return "login";
+    }
+    @GetMapping("/register")
+    public String getRegistrationPage(Model model){
+        model.addAttribute("new_student", new RegisterDto());
+        return "register";
+    }
+
+    @PostMapping("/save")
+    public String registerNewStudent(@ModelAttribute("new_student") RegisterDto registerDto){
+        registerService.RegisterStudent(registerDto);
+        return "redirect:/register?success";
+
+    }
+
 }
