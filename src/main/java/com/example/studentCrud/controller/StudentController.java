@@ -9,42 +9,28 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class ApiController {
+public class StudentController {
 
     private final StudentService studentService;
-//    private final StudentRegRepo studentRegRepo;
     private final RegisterServiceImpl registerService;
 
-    public ApiController(StudentService studentService, RegisterServiceImpl registerService) {
+    public StudentController(StudentService studentService, RegisterServiceImpl registerService) {
         this.studentService = studentService;
         this.registerService = registerService;
     }
 
-    @GetMapping("/student")
+    @GetMapping("/student/home")
     public String viewHomePage(Model model) {
-        model.addAttribute("listStudents", studentService.getAllStudents());
+        model.addAttribute("active_students", studentService.getAllActiveStudents());
         model.addAttribute("students", new Student());
-        return "index";
-    }
-
-    @GetMapping("/showNewStudent")
-    public String showNewStudentForm(Model model) {
-        Student student = new Student();
-        model.addAttribute("student", student);
-        return "new_student";
-    }
-
-    @PostMapping("/saveStudent")
-    public String saveStudent(@ModelAttribute("student") Student student) {
-        studentService.saveStudent(student);
-        return "redirect:/";
+        return "page";
     }
 
     @GetMapping("/studentUpdateForm/{id}")
     public String showStudentUpdateForm(@PathVariable(value = "id") Long id, Model model) {
         Student student = studentService.getStudentById(id);
         model.addAttribute("student", student);
-        return "update_student";
+        return "updateStudent";
     }
 
     @PostMapping("/updateStudent")
@@ -63,12 +49,12 @@ public class ApiController {
     @PostMapping("/search")
     public String searchStudent(@ModelAttribute(value = "students") Student student, Model model) {
         String text = student.getName();
-        model.addAttribute("listStudents", studentService.searchStudentByName(text));
+        model.addAttribute("active_students", studentService.searchStudentByName(text));
         return "index";
     }
-    @GetMapping("/login")
+    @GetMapping("/student/login")
     public String getLoginPage(){
-        return "login";
+        return "studentLogin";
     }
     @GetMapping("/register")
     public String getRegistrationPage(Model model){
@@ -78,7 +64,7 @@ public class ApiController {
 
     @PostMapping("/save")
     public String registerNewStudent(@ModelAttribute("new_student") RegisterDto registerDto){
-        registerService.RegisterStudent(registerDto);
+        registerService.registerStudent(registerDto,0);
         return "redirect:/register?success";
 
     }

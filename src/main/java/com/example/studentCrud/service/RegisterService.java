@@ -5,6 +5,6 @@ import com.example.studentCrud.model.StudentLogin;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface RegisterService extends UserDetailsService {
-    void RegisterStudent(RegisterDto registerDto);
+public interface RegisterService{
+    void registerStudent(RegisterDto registerDto,int active);
 }

@@ -12,9 +12,12 @@ public class Student {
 
     private int active;
 
-    @OneToOne(mappedBy = "student")
 
-    StudentLogin studentLogin;
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade =  CascadeType.ALL,
+            mappedBy = "student")
+
+    private StudentLogin studentLogin;
 
     public Long getId() {
         return id;
@@ -46,5 +49,13 @@ public class Student {
 
     public void setActive(int active) {
         this.active = active;
+    }
+
+    public StudentLogin getStudentLogin() {
+        return studentLogin;
+    }
+
+    public void setStudentLogin(StudentLogin studentLogin) {
+        this.studentLogin = studentLogin;
     }
 }

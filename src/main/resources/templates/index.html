@@ -20,7 +20,7 @@
         </div>
     </div>
 
-    <form th:action="@{/search}" th:object="${students}" method="POST">
+    <form th:action="@{/admin/student/search}" th:object="${students}" method="POST">
         <div class="container mt-3 mb-3">
             <div class="row">
                 <div class="col-6 p-0">
@@ -43,18 +43,29 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="student:${listStudents}">
+        <tr th:each="student:${active_students}">
             <td th:text="${student.id}" class="text-center"></td>
             <td th:text="${student.name}" class="text-center"></td>
             <td th:text="${student.age}" class="text-center"></td>
             <td class="text-center">
-                <a th:href="@{/studentUpdateForm/{id}(id=${student.id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/delete/{id}(id=${student.id})}" class="btn btn-danger m-1 ml-4">Delete</a>
+                <a th:href="@{/admin/student/update/{id}(id=${student.id})}" class="btn btn-primary">Update</a>
+                <a th:href="@{/admin/student/delete/{active}/{id}(active=${student.active},id=${student.id})}" class="btn btn-danger m-1 ml-4">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/showNewStudent}" class="btn btn-primary btn-sm mb-2">Add Student</a>
+
+    <div class="container mb-3">
+        <div class="row">
+            <div class="col-6 p-0 text-right">
+
+            </div>
+            <div class="col-6 p-0 text-right">
+                <a th:href="@{/admin/student/requests}" class="btn btn-warning btn-sm mb-2 mr-3">New Request</a>
+                <a th:href="@{/admin/student/add}" class="btn btn-success btn-sm mb-2">Add Student</a>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

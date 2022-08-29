@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Student</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2">
+    <h1 class="mb-3">Student Registration</h1>
+    <form th:action="@{/admin/student/save}" th:object="${new_student}" method="POST">
+        <input type="text" th:field="*{name}" placeholder="Student Name" class="form-control mb-4 col-4">
+        <input type="email" th:field="*{email}" placeholder="Student email" class="form-control mb-4 col-4">
+        <input type="number" th:field="*{age}" placeholder="Student age" class="form-control mb-4 col-4">
+        <input type="password" th:field="*{password}" placeholder="Password" class="form-control mb-4 col-4">
+        <button type="submit" class="btn btn-info col-2">Register</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 package com.example.studentCrud.service;
 
-import com.example.studentCrud.Repository.StudentRegRepo;
+import com.example.studentCrud.Repository.StudentLoginRepo;
 import com.example.studentCrud.Repository.StudentRepo;
 import com.example.studentCrud.dto.RegisterDto;
 import com.example.studentCrud.model.Role;
@@ -16,18 +16,16 @@ import java.util.Arrays;
 @Service
 public class RegisterServiceImpl implements RegisterService {
 
-    private final StudentRegRepo studentRegRepo;
     private final PasswordEncoder passwordEncoder;
     private final StudentRepo studentRepo;
 
-    public RegisterServiceImpl(StudentRegRepo studentRegRepo, PasswordEncoder passwordEncoder, StudentRepo studentRepo) {
-        this.studentRegRepo = studentRegRepo;
+    public RegisterServiceImpl(PasswordEncoder passwordEncoder, StudentRepo studentRepo) {
         this.passwordEncoder = passwordEncoder;
         this.studentRepo = studentRepo;
     }
 
     @Override
-    public void RegisterStudent(RegisterDto registerDto) {
+    public void registerStudent(RegisterDto registerDto, int active) {
 
         StudentLogin studentLogin = new StudentLogin();
         Student student = new Student();
@@ -38,20 +36,12 @@ public class RegisterServiceImpl implements RegisterService {
 
         student.setName(registerDto.getName());
         student.setAge(registerDto.getAge());
-        student.setActive(0);
+        student.setActive(active);
 
-        studentRegRepo.save(studentLogin);
+        student.setStudentLogin(studentLogin);
+        studentLogin.setStudent(student);
+
         studentRepo.save(student);
-
-    }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        StudentLogin studentLogin = studentRegRepo.findByEmail(username);
-        if (studentLogin == null) {
-            throw new UsernameNotFoundException("Invalid Student Credentials");
-        }
-        return new StudentPrincipal(studentLogin);
     }
 
 }

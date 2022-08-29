@@ -1,13 +1,14 @@
 package com.example.studentCrud.service;
 
 import com.example.studentCrud.model.Student;
+import com.example.studentCrud.model.StudentLogin;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public interface StudentService {
-    List<Student> getAllStudents();
+    List<Student> getAllActiveStudents();
 
     List<Student> getInactiveStudents(int active);
     void activateStudentAccount(Long id);
@@ -20,5 +21,8 @@ public interface StudentService {
     void updateStudent(Student student);
 
     void deleteStudent(Student student);
+    void deleteStudentLogin(StudentLogin studentLogin);
+
+    StudentLogin getStudentLogin(Student student);
 
 }

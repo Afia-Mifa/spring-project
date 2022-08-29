@@ -3,13 +3,18 @@ package com.example.studentCrud.service;
 import com.example.studentCrud.Repository.AdminRepo;
 import com.example.studentCrud.model.Admin;
 import com.example.studentCrud.model.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -41,6 +46,11 @@ public class AdminServiceImpl implements AdminService {
         if (admin == null) {
             throw new UsernameNotFoundException("Not a valid admin");
         }
+
+//        AdminPrincipal adminPrincipal = new AdminPrincipal(admin);
+
+//        Collection<SimpleGrantedAuthority> auth =  adminPrincipal.getAuthorities();
+
         return new AdminPrincipal(admin);
     }
 

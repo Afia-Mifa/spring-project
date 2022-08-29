@@ -1,8 +1,5 @@
 package com.example.studentCrud.configuration;
 
-import com.example.studentCrud.model.Admin;
-import com.example.studentCrud.service.AdminPrincipal;
-import com.example.studentCrud.service.AdminService;
 import com.example.studentCrud.service.RegisterService;
 import com.example.studentCrud.service.StudentLoginService;
 import org.springframework.context.annotation.Bean;
@@ -17,23 +14,24 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @Configuration
 @EnableWebSecurity
-@Order(1)
-public class AdminConfig extends WebSecurityConfigurerAdapter {
+@Order(2)
+public class StudentConfig extends WebSecurityConfigurerAdapter {
 
-    private  final AdminService adminService;
+    private  final StudentLoginService studentLoginService;
     private final PasswordEncoder passwordEncoder;
 
-    public AdminConfig(AdminService adminService, PasswordEncoder passwordEncoder) {
-        this.adminService = adminService;
+
+    public StudentConfig(StudentLoginService studentLoginService, PasswordEncoder passwordEncoder) {
+        this.studentLoginService = studentLoginService;
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(adminService);
+        authenticationProvider.setUserDetailsService(studentLoginService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
 
         return authenticationProvider;
@@ -49,22 +47,14 @@ public class AdminConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/")
-                .permitAll()
+                .antMatchers("/register","/save").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login/admin")
-                    .permitAll()
-                    .defaultSuccessUrl("/admin/student")
-                .and()
-                .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/login/admin");
-    }
+                    .loginPage("/student/login")
+                    .defaultSuccessUrl("/student/home")
+                    .permitAll();
 
+    }
 }

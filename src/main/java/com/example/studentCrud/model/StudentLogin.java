@@ -9,6 +9,8 @@ import java.util.List;
 @Table(name="studentLogin")
 public class StudentLogin {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String email;
     private String password;
 
@@ -16,7 +18,7 @@ public class StudentLogin {
     @JoinTable(
             name="student_roles",
             joinColumns = @JoinColumn (
-                    name = "student_email", referencedColumnName = "email"),
+                    name = "student_email", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "roleId"
             )
@@ -25,7 +27,8 @@ public class StudentLogin {
     )
     private Collection<Role> roles;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "std_id", nullable = false)
     private Student student;
 
     public String getPassword() {
@@ -52,6 +55,14 @@ public class StudentLogin {
         this.roles = roles;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Student getStudent() {
         return student;
     }
@@ -59,4 +70,20 @@ public class StudentLogin {
     public void setStudent(Student student) {
         this.student = student;
     }
+
+    //    public Student getStudent() {
+//        return student;
+//    }
+//
+//    public void setStudent(Student student) {
+//        this.student = student;
+//    }
+
+    //    public Student getStudent() {
+//        return student;
+//    }
+//
+//    public void setStudent(Student student) {
+//        this.student = student;
+//    }
 }
