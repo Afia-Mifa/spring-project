@@ -55,6 +55,5 @@ public class StudentConfig extends WebSecurityConfigurerAdapter {
                     .loginPage("/student/login")
                     .defaultSuccessUrl("/student/home")
                     .permitAll();
-
     }
 }
