@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService{
             user.setPassword(passwordEncoder.encode("1234"));
             user.setAge(36);
             user.setRoles(Arrays.asList(new Role("ADMIN")));
-            user.setActive(-1);
+            user.setActive(false);
             userRepo.save(user);
         }
     }
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService{
         return new UserPrincipal(user);
     }
 
-    public void createStudent(RegisterDto registerDto, int active, Role role){
+    public void createStudent(RegisterDto registerDto, boolean active, Role role){
         User user = new User();
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService{
         userRepo.save(user);
     }
     @Override
-    public void registerStudent(RegisterDto registerDto, int active) {
+    public void registerStudent(RegisterDto registerDto, boolean active) {
              Role role = roleRepo.findByRoleName("STUDENT");
 
         if(role==null){
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<User> getStudentByActive(int active) {
+    public List<User> getStudentByActive(boolean active) {
         List<User> activeStudents = userRepo.findAllByActive(active);
         return activeStudents;
     }
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> findAllStudents() {
 
-        List<User> students = userRepo.findAllByRolesAndActive(roleRepo.findByRoleName("STUDENT"),1);
+        List<User> students = userRepo.findAllByRolesAndActive(roleRepo.findByRoleName("STUDENT"),true);
         return students;
     }
     @Override
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public void activateStudentAccount(Long id) {
         User user = getStudentById(id);
-        user.setActive(1);
+        user.setActive(true);
         userRepo.save(user);
     }
 

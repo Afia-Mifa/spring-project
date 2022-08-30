@@ -11,9 +11,13 @@ public class StudentController {
 
 //    private final StudentService studentService;
 //    private final RegisterServiceImpl registerService;
-//    private final UserServiceImpl userService;
-//
-//    public StudentController(StudentService studentService, RegisterServiceImpl registerService, UserServiceImpl userService) {
+    private final UserServiceImpl userService;
+
+    public StudentController(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
+    //    public StudentController(StudentService studentService, RegisterServiceImpl registerService, UserServiceImpl userService) {
 //        this.studentService = studentService;
 //        this.registerService = registerService;
 //        this.userService = userService;
@@ -56,16 +60,16 @@ public class StudentController {
 //    public String getLoginPage(){
 //        return "studentLogin";
 //    }
-//    @GetMapping("/register")
-//    public String getRegistrationPage(Model model){
-//        model.addAttribute("new_student", new RegisterDto());
-//        return "register";
-//    }
-//
-//    @PostMapping("/save")
-//    public String registerNewStudent(@ModelAttribute("new_student") RegisterDto registerDto){
-//        userService.registerStudent(registerDto,0);
-//        return "redirect:/register?success";
-//    }
+    @GetMapping("/register")
+    public String getRegistrationPage(Model model){
+        model.addAttribute("new_student", new RegisterDto());
+        return "register";
+    }
+
+    @PostMapping("/save")
+    public String registerNewStudent(@ModelAttribute("new_student") RegisterDto registerDto){
+        userService.registerStudent(registerDto,false);
+        return "redirect:/register?success";
+    }
 
 }

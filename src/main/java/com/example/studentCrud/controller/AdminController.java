@@ -44,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/admin/student/requests")
     public String getInactiveStudents(Model model) {
-        model.addAttribute("inactive_students", userService.getStudentByActive(0));
+        model.addAttribute("inactive_students", userService.getStudentByActive(false));
         return "studentRequests";
     }
 
@@ -55,9 +55,9 @@ public class AdminController {
     }
 
     @GetMapping("/admin/student/delete/{active}/{id}")
-    public String deleteStudentRequest(@PathVariable(value = "id") Long id, @PathVariable(value = "active") int active) {
+    public String deleteStudentRequest(@PathVariable(value = "id") Long id, @PathVariable(value = "active") boolean active) {
         String path = "";
-        if (active == 0) {
+        if (active == false) {
             path = "admin/student/requests";
         } else {
             path = "admin/student";
@@ -82,7 +82,7 @@ public class AdminController {
 
     @PostMapping("/admin/student/save")
     public String registerNewStudent(@ModelAttribute("new_student") RegisterDto registerDto) {
-        userService.registerStudent(registerDto, 1);
+        userService.registerStudent(registerDto, true);
         return "redirect:/admin/student";
     }
 

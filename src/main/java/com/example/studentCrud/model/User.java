@@ -15,7 +15,7 @@ public class User {
     private String name;
     private String password;
     private int age;
-    private int active;
+    private boolean active;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -76,11 +76,11 @@ public class User {
         this.roles = roles;
     }
 
-    public int getActive() {
+    public boolean isActive() {
         return active;
     }
 
-    public void setActive(int active) {
+    public void setActive(boolean active) {
         this.active = active;
     }
 }

@@ -11,8 +11,8 @@ import java.util.List;
 public interface UserService extends UserDetailsService {
     void createAdmin();
     Role findAdmin(String role);
-    void registerStudent(RegisterDto registerDto, int active);
-    List<User>  getStudentByActive(int active);
+    void registerStudent(RegisterDto registerDto, boolean active);
+    List<User>  getStudentByActive(boolean active);
     List<User> findAllStudents();
     User getStudentById(Long id);
     void activateStudentAccount(Long id);
