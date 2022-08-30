@@ -1,14 +1,7 @@
 package com.example.studentCrud.configuration;
 
-import com.example.studentCrud.model.Admin;
-import com.example.studentCrud.service.AdminPrincipal;
-import com.example.studentCrud.service.AdminService;
-import com.example.studentCrud.service.RegisterService;
-import com.example.studentCrud.service.StudentLoginService;
-import org.springframework.context.annotation.Bean;
+import com.example.studentCrud.service.UserService;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,25 +10,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-
 @Configuration
 @EnableWebSecurity
-@Order(1)
-public class AdminConfig extends WebSecurityConfigurerAdapter {
-
-    private  final AdminService adminService;
+public class AuthConfig extends WebSecurityConfigurerAdapter {
+    private  final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public AdminConfig(AdminService adminService, PasswordEncoder passwordEncoder) {
-        this.adminService = adminService;
+
+    public AuthConfig(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(adminService);
+        authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
-
         return authenticationProvider;
     }
 
@@ -49,22 +39,23 @@ public class AdminConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/","/register","/save")
                 .permitAll()
+                .antMatchers("/admin/**")
+                .hasRole("ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login/admin")
-                    .permitAll()
-                    .defaultSuccessUrl("/admin/student")
+                .loginPage("/login")
+                .permitAll()
+                .defaultSuccessUrl("/course")
                 .and()
                 .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .invalidateHttpSession(true)
-                    .clearAuthentication(true)
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessUrl("/login/admin");
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .invalidateHttpSession(true)
+                .clearAuthentication(true)
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessUrl("/login");
     }
-
 }

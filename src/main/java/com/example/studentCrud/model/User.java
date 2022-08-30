@@ -1,35 +1,47 @@
 package com.example.studentCrud.model;
 
+
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
-public class Admin {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long adminId;
+    private Long id;
+
+    private String email;
     private String name;
     private String password;
+    private int age;
+    private int active;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
-            name="admin_roles",
+            name="user_roles",
             joinColumns = @JoinColumn (
-                    name = "amin_id", referencedColumnName = "adminId"),
+                    name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "role_id", referencedColumnName = "roleId"
             )
     )
-
     private Collection<Role> roles;
 
-    public Long getAdminId() {
-        return adminId;
+    public Long getId() {
+        return id;
     }
 
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getName() {
@@ -48,11 +60,27 @@ public class Admin {
         this.password = password;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public Collection<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
     }
 }
