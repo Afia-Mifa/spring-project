@@ -1,17 +1,12 @@
 package com.example.studentCrud.dto;
 
 import com.example.studentCrud.model.User;
+import org.modelmapper.ModelMapper;
 
 public class UserDto {
     private long id;
     private String name;
     private int age;
-
-    public UserDto(long id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
 
     public UserDto() {
     }
@@ -40,7 +35,5 @@ public class UserDto {
         this.age = age;
     }
 
-    public static UserDto from(User user) {
-        return new UserDto(user.getId(), user.getName(), user.getAge());
-    }
+
 }

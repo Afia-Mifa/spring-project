@@ -90,7 +90,7 @@ public class AdminController {
     @GetMapping("/admin/student/update/{id}")
     public String showStudentUpdateForm(@PathVariable(value = "id") Long id, Model model) {
         User user = userService.getStudentById(id);
-        model.addAttribute("student", UserDto.from(user));
+        model.addAttribute("student", userService.fromUserToDto(user));
         return "updateStudent";
     }
 
@@ -122,7 +122,7 @@ public class AdminController {
     @GetMapping("/admin/course/update/{id}")
     public String showCourseUpdateForm(@PathVariable(value = "id") Long id, Model model) throws Exception {
         Course course = courseService.getCourseById(id);
-        model.addAttribute("course", CourseDto.from(course));
+        model.addAttribute("course", courseService.fromCourseToDto(course));
         return "update_course";
     }
 

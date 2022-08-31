@@ -19,5 +19,6 @@ public interface UserService extends UserDetailsService {
     void deleteStudent(User user);
     void updateStudent(UserDto user) throws Exception;
     List<User> searchStudentByName(String name);
+    UserDto fromUserToDto(User user);
 
 }

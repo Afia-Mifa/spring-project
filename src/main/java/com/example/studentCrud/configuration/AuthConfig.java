@@ -1,6 +1,8 @@
 package com.example.studentCrud.configuration;
 
 import com.example.studentCrud.service.UserService;
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,6 +28,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
+        authenticationProvider.setHideUserNotFoundExceptions(false) ;
         return authenticationProvider;
     }
 
@@ -34,7 +37,7 @@ public class AuthConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider());
     }
 
-    @Override
+     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()

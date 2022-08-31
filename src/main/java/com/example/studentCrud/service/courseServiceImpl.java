@@ -3,7 +3,7 @@ package com.example.studentCrud.service;
 import com.example.studentCrud.Repository.CourseRepo;
 import com.example.studentCrud.dto.CourseDto;
 import com.example.studentCrud.model.Course;
-import com.example.studentCrud.model.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,9 +13,11 @@ import java.util.Optional;
 @Service
 public class courseServiceImpl implements courseService{
     private final CourseRepo courseRepo;
+    private final ModelMapper modelMapper;
 
-    public courseServiceImpl(CourseRepo courseRepo) {
+    public courseServiceImpl(CourseRepo courseRepo, ModelMapper modelMapper) {
         this.courseRepo = courseRepo;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -68,5 +70,11 @@ public class courseServiceImpl implements courseService{
     public List<Course> searchCourseByName(String courseName) {
         List<Course> courses = courseRepo.findAllByCourseName(courseName);
         return courses;
+    }
+
+    @Override
+    public CourseDto fromCourseToDto(Course course){
+        CourseDto courseDto = modelMapper.map(course,CourseDto.class);
+        return courseDto;
     }
 }

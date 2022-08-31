@@ -6,6 +6,7 @@ import com.example.studentCrud.dto.RegisterDto;
 import com.example.studentCrud.dto.UserDto;
 import com.example.studentCrud.model.Role;
 import com.example.studentCrud.model.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,11 +20,13 @@ public class UserServiceImpl implements UserService{
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper modelMapper;
 
-    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepo userRepo, RoleRepo roleRepo, PasswordEncoder passwordEncoder, ModelMapper modelMapper) {
         this.userRepo = userRepo;
         this.roleRepo = roleRepo;
         this.passwordEncoder = passwordEncoder;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -128,5 +131,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> searchStudentByName(String name) {
         return userRepo.findByName(name);
+    }
+
+    @Override
+    public UserDto fromUserToDto(User user) {
+        UserDto userDto = modelMapper.map(user,UserDto.class);
+        return userDto;
     }
 }
