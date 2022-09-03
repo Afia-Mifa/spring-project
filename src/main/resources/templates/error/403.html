@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body {
+            background-color: #1d2534;
+        }
+
+        .center {
+            /*border: 2px solid red;*/
+            position: relative;
+            height: 100vh;
+            /*border: 2px solid #006100;*/
+        }
+
+        .item {
+            margin: 0;
+            position: absolute;
+            top: 35%;
+            left: 50%;
+            /*transform: translateY(-50%);*/
+            transform: translateX(-50%);
+            font-size: 26px;
+            color: #939393;
+            /*border: 2px solid #006100;*/
+
+        }
+
+        #error_code {
+            text-align: center;
+            font-size: 50px;
+            color: #ff8c48;
+        }
+
+    </style>
+</head>
+<body>
+<div class="center">
+    <div class="item">
+        <p id="error_code">403</p>
+        <p>Unauthorized access forbidden</p>
+    </div>
+
+</div>
+</body>
+</html>
